@@ -52,8 +52,71 @@ function notice(msg){$('#notice').textContent=msg;$('#notice').classList.add('sh
 async function api(url,opts={}){const r=await fetch(url,{...opts,headers:{'Content-Type':'application/json',...(opts.headers||{})},credentials:'same-origin'});if(!r.ok){let m='Request failed ('+r.status+')';try{m=(await r.json()).error||m}catch{}throw Error(m)}return r.status===204?null:r.json()}
 async function load(){document.body.classList.add('loading');$('#connection').textContent='Checking access…';try{const data=await api('/api/admin/orders');orders=(Array.isArray(data)?data:(data.orders||[])).map(norm);$('#connection').textContent='● Secure connection';$('#connection').style.color='#23633a';render()}catch(e){$('#connection').textContent='Connection needs setup';renderError(e.message)}finally{document.body.classList.remove('loading')}}
 function renderError(msg){$('#total').textContent='—';$('#pendingCount').textContent='—';$('#approvedCount').textContent='—';$('#orders').innerHTML=`<div class="empty"><div style="font-size:34px">🔐</div><h3>Could not load orders</h3><p>${safe(msg)}</p><p>Check that Cloudflare Access protects this page and <code>/api/admin/*</code>, and that the Pages Functions and D1 binding are deployed.</p><button class="btn primary" onclick="load()">Try again</button></div>`}
-function render(){let q=$('#search').value.toLowerCase().trim(),f=$('#filter').value;$('#total').textContent=orders.length;$('#pendingCount').textContent=orders.filter(o=>o.status==='pending').length;$('#approvedCount').textContent=orders.filter(o=>o.status==='approved').length;let filtered=orders.filter(o=>(f==='all'||o.status===f)&&[o.recipient_name,o.block,o.message,o.id].some(v=>String(v??'').toLowerCase().includes(q)));if(!filtered.length){$('#orders').innerHTML='<div class="empty"><div style="font-size:34px">🍬</div><h3>No candy grams found</h3><p>Try another search or status filter.</p></div>';return}$('#orders').innerHTML=filtered.map((o,i)=>{let st=['pending','approved','rejected','delivered'].includes(o.status)?o.status:'pending';let date=formatVancouverDate(o.created_at);return `<article class="order" style="animation-delay:${Math.min(i*35,280)}ms"><div class="orderhead"><div><p class="recipient">${safe(o.recipient_name)}</p><div class="meta">Order #${safe(o.id)}${date?' · '+safe(date):''}</div></div><span class="status ${st}">${st}</span></div><div class="details"><span>🏫 Block: <b>${safe(o.block||'Not provided')}</b></span><span>🕵️ ${o.is_anonymous?'Anonymous sender':'Sender details not shown'}</span></div><div class="message">“${safe(o.message)}”</div><div class="actions">${st!=='approved'?`<button class="btn good" data-action="approve" data-id="${safe(o.id)}">✓ Approve</button>`:''}${st!=='rejected'?`<button class="btn bad" data-action="reject" data-id="${safe(o.id)}">✕ Reject</button>`:''}${st==='approved'?`<button class="btn" data-action="delivered" data-id="${safe(o.id)}">🍬 Mark delivered</button>`:''}${st!=='pending'?`<button class="btn" data-action="pending" data-id="${safe(o.id)}">↺ Reset to pending</button>`:''}</div></article>`}).join('')}
-$('#orders').addEventListener('click',async e=>{const b=e.target.closest('button[data-action]');if(!b)return;const id=b.dataset.id,action=b.dataset.action;if(!confirm(`${action==='approve'?'Approve':action==='reject'?'Reject':action==='delivered'?'Mark as delivered':'Reset'} this candy gram?`))return;b.disabled=true;try{await api(`/api/admin/orders/${encodeURIComponent(id)}`,{method:'PATCH',body:JSON.stringify({status:action})});const o=orders.find(x=>String(x.id)===String(id));if(o)o.status=action==='pending'?'pending':action;notice('Order updated.');render()}catch(err){notice('Could not update order: '+err.message)}finally{b.disabled=false}});
+function render(){let q=$('#search').value.toLowerCase().trim(),f=$('#filter').value;$('#total').textContent=orders.length;$('#pendingCount').textContent=orders.filter(o=>o.status==='pending').length;$('#approvedCount').textContent=orders.filter(o=>o.status==='approved').length;let filtered=orders.filter(o=>(f==='all'||o.status===f)&&[o.recipient_name,o.block,o.message,o.id].some(v=>String(v??'').toLowerCase().includes(q)));if(!filtered.length){$('#orders').innerHTML='<div class="empty"><div style="font-size:34px">🍬</div><h3>No candy grams found</h3><p>Try another search or status filter.</p></div>';return}$('#orders').innerHTML=filtered.map((o,i)=>{let st=['pending','approved','rejected','delivered'].includes(o.status)?o.status:'pending';let date=formatVancouverDate(o.created_at);return `<article class="order" style="animation-delay:${Math.min(i*35,280)}ms"><div class="orderhead"><div><p class="recipient">${safe(o.recipient_name)}</p><div class="meta">Order #${safe(o.id)}${date?' · '+safe(date):''}</div></div><span class="status ${st}">${st}</span></div><div class="details"><span>🏫 Block: <b>${safe(o.block||'Not provided')}</b></span><span>🕵️ ${o.is_anonymous?'Anonymous sender':'Sender details not shown'}</span></div><div class="message">“${safe(o.message)}”</div><div class="actions">${st!=='approved'?`<button class="btn good" data-action="approve" data-id="${safe(o.id)}">✓ Approve</button>`:''}${st!=='rejected'?`<button class="btn bad" data-action="reject" data-id="${safe(o.id)}">✕ Reject</button>`:''}${st==='approved'?`<button class="btn" data-action="delivered" data-id="${safe(o.id)}">🍬 Mark delivered</button>`:''}${st!=='pending'?`<button class="btn" data-action="pending" data-id="${safe(o.id)}">↺ Reset to pending</button>`:''}<button class="btn bad" data-action="delete" data-id="${safe(o.id)}">Delete</button></div></article>`}).join('')}
+
+$('#orders').addEventListener('click', async e => {
+  const b = e.target.closest('button[data-action]');
+  if (!b) return;
+
+  const id = b.dataset.id;
+  const action = b.dataset.action;
+
+  if (action === 'delete') {
+    if (!confirm(
+      `Permanently delete candy gram #${id}? This cannot be undone.`
+    )) return;
+
+    b.disabled = true;
+
+    try {
+      await api(`/api/admin/orders/${encodeURIComponent(id)}`, {
+        method: 'DELETE'
+      });
+
+      orders = orders.filter(o => String(o.id) !== String(id));
+      notice('Candy gram permanently deleted.');
+      render();
+    } catch (err) {
+      notice('Could not delete candy gram: ' + err.message);
+      b.disabled = false;
+    }
+
+    return;
+  }
+
+  const labels = {
+    approve: 'Approve',
+    reject: 'Reject',
+    delivered: 'Mark as delivered',
+    pending: 'Reset'
+  };
+
+  if (!confirm(`${labels[action] || 'Update'} this candy gram?`)) {
+    return;
+  }
+
+  b.disabled = true;
+
+  try {
+    await api(`/api/admin/orders/${encodeURIComponent(id)}`, {
+      method: 'PATCH',
+      body: JSON.stringify({ status: action })
+    });
+
+    const order = orders.find(o => String(o.id) === String(id));
+    if (order) {
+      order.status = action === 'pending' ? 'pending' : action;
+    }
+
+    notice('Order updated.');
+    render();
+  } catch (err) {
+    notice('Could not update order: ' + err.message);
+  } finally {
+    b.disabled = false;
+  }
+});
+  const b=e.target.closest('button[data-action]');if(!b)return;const id=b.dataset.id,action=b.dataset.action;if(!confirm(`${action==='approve'?'Approve':action==='reject'?'Reject':action==='delivered'?'Mark as delivered':'Reset'} this candy gram?`))return;b.disabled=true;try{await api(`/api/admin/orders/${encodeURIComponent(id)}`,{method:'PATCH',body:JSON.stringify({status:action})});const o=orders.find(x=>String(x.id)===String(id));if(o)o.status=action==='pending'?'pending':action;notice('Order updated.');render()}catch(err){notice('Could not update order: '+err.message)}finally{b.disabled=false}});
 $('#search').addEventListener('input',render);$('#filter').addEventListener('change',render);$('#refresh').addEventListener('click',load);$('#export').addEventListener('click',()=>{const rows=[['id','recipient_name','block','message','status','created_at'],...orders.map(o=>[o.id,o.recipient_name,o.block,o.message,o.status,o.created_at])];const csv=rows.map(r=>r.map(v=>'"'+String(v??'').replace(/"/g,'""')+'"').join(',')).join('\r\n');const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8;'}));a.download='joss-candy-orders.csv';a.click();URL.revokeObjectURL(a.href)});$('#loginForm').addEventListener('submit', async e => {
   e.preventDefault();
   $('#loginError').textContent = '';
