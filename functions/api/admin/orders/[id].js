@@ -46,6 +46,35 @@ export async function onRequestPatch({ env, request, params }) {
   }
 }
 
+export async function onRequestDelete({ env, request, params }) {
+  if (!(await isAdmin(request, env))) {
+    return json({ error: "Please sign in to the admin dashboard." }, 401);
+  }
+
+  if (!env.DB) {
+    return json({ error: "D1 binding DB is missing." }, 500);
+  }
+
+  const id = String(params.id || "");
+  if (!/^\d+$/.test(id)) {
+    return json({ error: "Invalid order ID." }, 400);
+  }
+
+  try {
+    const result = await env.DB.prepare(
+      "DELETE FROM candy_orders WHERE id = ?"
+    ).bind(Number(id)).run();
+
+    if (!result.meta?.changes) {
+      return json({ error: "Order not found." }, 404);
+    }
+
+    return json({ ok: true, id });
+  } catch {
+    return json({ error: "Could not delete the order." }, 500);
+  }
+}
+
 async function isAdmin(request, env) {
   if (!env.ADMIN_USERNAME || !env.ADMIN_PASSWORD) return false;
 
