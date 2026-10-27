@@ -10,8 +10,17 @@ export async function onRequestGet({ env, request }) {
 
   try {
     const { results } = await env.DB.prepare(
-      `SELECT id, recipient_name, block, message, status, created_at, is_anonymous
-       FROM candy_orders ORDER BY created_at DESC LIMIT 1000`
+      `SELECT
+  id,
+  recipient AS recipient_name,
+  block,
+  message,
+  status,
+  created_at,
+  anonymous AS is_anonymous
+FROM candy_orders
+ORDER BY created_at DESC
+LIMIT 1000`
     ).all();
 
     return json({ orders: results || [] });
