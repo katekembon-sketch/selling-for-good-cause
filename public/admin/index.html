@@ -1,12 +1,65 @@
+
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>JOSS · Candy Gram Admin</title>
 <style>
-:root{--ink:#241b2b;--muted:#756879;--paper:#fffaf5;--pink:#f6a8c6;--berry:#8e2859;--mint:#cce9d7;--line:#f0dfe7;--gold:#f2c66d}*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 10% 0,#ffe2ed 0,transparent 30%),radial-gradient(circle at 100% 20%,#e7f4e8 0,transparent 25%),var(--paper);font-family:ui-rounded,"Trebuchet MS",system-ui,sans-serif;color:var(--ink);min-height:100vh}.wrap{max-width:1150px;margin:auto;padding:28px 18px 60px}.top{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}.brand{display:flex;gap:13px;align-items:center}.logo{width:54px;height:54px;border-radius:18px;background:var(--berry);color:white;display:grid;place-items:center;font-size:28px;box-shadow:0 8px 22px #8e285933}.eyebrow{color:var(--berry);font-weight:800;text-transform:uppercase;letter-spacing:.16em;font-size:11px}.brand h1{font-size:clamp(24px,4vw,36px);margin:2px 0}.pill{border:1px solid var(--line);background:#fff9;border-radius:999px;padding:10px 14px;color:var(--muted);font-size:13px}.hero{margin:28px 0 22px;background:linear-gradient(120deg,#fff 0%,#fff0f6 55%,#f0fbf2 100%);border:1px solid var(--line);border-radius:28px;padding:28px;position:relative;overflow:hidden}.hero:after{content:'🍬';position:absolute;right:30px;top:12px;font-size:80px;opacity:.2;transform:rotate(18deg);animation:float 4s ease-in-out infinite}.hero h2{font-size:clamp(24px,4vw,34px);margin:0 0 8px}.hero p{margin:0;color:var(--muted);max-width:650px;line-height:1.55}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:18px 0 22px}.stat{background:#fff;border:1px solid var(--line);border-radius:20px;padding:18px;box-shadow:0 8px 20px #5e294408}.stat span{display:block;color:var(--muted);font-size:13px}.stat strong{display:block;font-size:30px;margin-top:6px}.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}.search{flex:1;min-width:190px;border:1px solid var(--line);border-radius:14px;background:white;padding:13px 15px;font:inherit;outline:none}.search:focus{border-color:var(--berry);box-shadow:0 0 0 3px #8e28591a}select,.btn{border:1px solid var(--line);border-radius:14px;padding:12px 14px;background:#fff;font:inherit;color:var(--ink)}.btn{cursor:pointer;font-weight:800;transition:transform .15s,box-shadow .15s}.btn:hover{transform:translateY(-2px);box-shadow:0 7px 15px #4b243018}.btn.primary{background:var(--berry);border-color:var(--berry);color:#fff}.btn.good{background:#e2f5e8;border-color:#c5e8d0}.btn.bad{background:#fff0f0;border-color:#f3d0d0}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.order{background:#fff;border:1px solid var(--line);border-radius:22px;padding:19px;box-shadow:0 8px 22px #51233a08;animation:appear .35s ease both}.orderhead{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}.recipient{font-size:20px;font-weight:900;margin:0 0 5px;overflow-wrap:anywhere}.meta{font-size:12px;color:var(--muted)}.status{display:inline-flex;border-radius:999px;padding:6px 10px;font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:.06em;white-space:nowrap}.pending{background:#fff1d5;color:#82550b}.approved{background:#e2f5e8;color:#23633a}.rejected{background:#ffe4e4;color:#9b3030}.delivered{background:#e7e1fa;color:#59419b}.message{background:#fff8fb;border:1px dashed #e8b7cc;border-radius:15px;padding:15px;margin:16px 0;line-height:1.5;overflow-wrap:anywhere}.details{display:flex;gap:8px;flex-wrap:wrap;color:var(--muted);font-size:12px}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}.actions .btn{font-size:13px;padding:10px 12px}.empty{grid-column:1/-1;text-align:center;padding:48px 20px;background:#fff;border:1px dashed var(--line);border-radius:22px;color:var(--muted)}.notice{margin:12px 0;padding:12px 15px;border-radius:14px;background:#fff1d5;color:#704b10;display:none}.notice.show{display:block}.foot{text-align:center;color:var(--muted);font-size:12px;margin-top:28px}.loading{opacity:.6;pointer-events:none}@keyframes float{50%{transform:translateY(-9px) rotate(8deg)}}@keyframes appear{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}@media(max-width:700px){.stats{grid-template-columns:1fr 1fr}.stat:last-child{grid-column:1/-1}.grid{grid-template-columns:1fr}.hero{padding:22px}.hero:after{right:10px;top:8px;font-size:55px}}
-</style></head>
+:root{--ink:#241b2b;--muted:#756879;--paper:#fffaf5;--pink:#f6a8c6;--berry:#8e2859;--mint:#cce9d7;--line:#f0dfe7;--gold:#f2c66d}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(circle at 10% 0,#ffe2ed 0,transparent 30%),radial-gradient(circle at 100% 20%,#e7f4e8 0,transparent 25%),var(--paper);font-family:ui-rounded,"Trebuchet MS",system-ui,sans-serif;color:var(--ink);min-height:100vh}
+.wrap{max-width:1150px;margin:auto;padding:28px 18px 60px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.brand{display:flex;gap:13px;align-items:center}
+.logo{width:54px;height:54px;border-radius:18px;background:var(--berry);color:white;display:grid;place-items:center;font-size:28px;box-shadow:0 8px 22px #8e285933}
+.eyebrow{color:var(--berry);font-weight:800;text-transform:uppercase;letter-spacing:.16em;font-size:11px}
+.brand h1{font-size:clamp(24px,4vw,36px);margin:2px 0}
+.pill{border:1px solid var(--line);background:#fff9;border-radius:999px;padding:10px 14px;color:var(--muted);font-size:13px}
+.hero{margin:28px 0 22px;background:linear-gradient(120deg,#fff 0%,#fff0f6 55%,#f0fbf2 100%);border:1px solid var(--line);border-radius:28px;padding:28px;position:relative;overflow:hidden}
+.hero:after{content:'🍬';position:absolute;right:30px;top:12px;font-size:80px;opacity:.2;transform:rotate(18deg);animation:float 4s ease-in-out infinite}
+.hero h2{font-size:clamp(24px,4vw,34px);margin:0 0 8px}
+.hero p{margin:0;color:var(--muted);max-width:650px;line-height:1.55}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:18px 0 22px}
+.stat{background:#fff;border:1px solid var(--line);border-radius:20px;padding:18px;box-shadow:0 8px 20px #5e294408}
+.stat span{display:block;color:var(--muted);font-size:13px}
+.stat strong{display:block;font-size:30px;margin-top:6px}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+.search{flex:1;min-width:190px;border:1px solid var(--line);border-radius:14px;background:white;padding:13px 15px;font:inherit;outline:none}
+.search:focus{border-color:var(--berry);box-shadow:0 0 0 3px #8e28591a}
+select,.btn{border:1px solid var(--line);border-radius:14px;padding:12px 14px;background:#fff;font:inherit;color:var(--ink)}
+.btn{cursor:pointer;font-weight:800;transition:transform .15s,box-shadow .15s}
+.btn:hover{transform:translateY(-2px);box-shadow:0 7px 15px #4b243018}
+.btn:disabled{opacity:.55;cursor:wait;transform:none}
+.btn.primary{background:var(--berry);border-color:var(--berry);color:#fff}
+.btn.good{background:#e2f5e8;border-color:#c5e8d0}
+.btn.bad{background:#fff0f0;border-color:#f3d0d0}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.order{background:#fff;border:1px solid var(--line);border-radius:22px;padding:19px;box-shadow:0 8px 22px #51233a08;animation:appear .35s ease both}
+.orderhead{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.recipient{font-size:20px;font-weight:900;margin:0 0 5px;overflow-wrap:anywhere}
+.meta{font-size:12px;color:var(--muted)}
+.status{display:inline-flex;border-radius:999px;padding:6px 10px;font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:.06em;white-space:nowrap}
+.pending{background:#fff1d5;color:#82550b}
+.approved{background:#e2f5e8;color:#23633a}
+.rejected{background:#ffe4e4;color:#9b3030}
+.delivered{background:#e7e1fa;color:#59419b}
+.message{background:#fff8fb;border:1px dashed #e8b7cc;border-radius:15px;padding:15px;margin:16px 0;line-height:1.5;overflow-wrap:anywhere;white-space:pre-wrap}
+.details{display:flex;gap:8px;flex-wrap:wrap;color:var(--muted);font-size:12px}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+.actions .btn{font-size:13px;padding:10px 12px}
+.empty{grid-column:1/-1;text-align:center;padding:48px 20px;background:#fff;border:1px dashed var(--line);border-radius:22px;color:var(--muted)}
+.notice{margin:12px 0;padding:12px 15px;border-radius:14px;background:#fff1d5;color:#704b10;display:none}
+.notice.show{display:block}
+.foot{text-align:center;color:var(--muted);font-size:12px;margin-top:28px}
+.loading{opacity:.6;pointer-events:none}
+@keyframes float{50%{transform:translateY(-9px) rotate(8deg)}}
+@keyframes appear{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:700px){.stats{grid-template-columns:1fr 1fr}.stat:last-child{grid-column:1/-1}.grid{grid-template-columns:1fr}.hero{padding:22px}.hero:after{right:10px;top:8px;font-size:55px}}
+</style>
+</head>
 <body>
+
 <div id="loginPanel" style="max-width:400px;margin:60px auto;padding:24px;background:white;border:1px solid #f0dfe7;border-radius:22px;font-family:system-ui,sans-serif">
   <h2>🍬 Admin Login</h2>
   <p>Sign in to manage candy grams.</p>
@@ -19,18 +72,78 @@
     <p id="loginError" role="alert"></p>
   </form>
 </div>
-<main class="wrap" style="display:none"><header class="top"><div class="brand"><div class="logo">🍭</div><div><div class="eyebrow">JOSS · Organizer space</div><h1>Candy Gram Admin</h1></div></div><div class="pill" id="connection">Connecting to secure orders…</div></header>
-<section class="hero"><div class="eyebrow">Halloween 2026</div><h2>A little sweetness, handled with care.</h2><p>Review incoming candy grams, approve kind messages, and keep track of what is ready for delivery. Only organizers should access this dashboard.</p></section>
-<section class="stats"><div class="stat"><span>Total orders</span><strong id="total">—</strong></div><div class="stat"><span>Awaiting review</span><strong id="pendingCount">—</strong></div><div class="stat"><span>Approved</span><strong id="approvedCount">—</strong></div></section>
-<div class="toolbar"><input id="search" class="search" placeholder="Search recipient, block, or message…" aria-label="Search orders"><select id="filter" aria-label="Filter by status"><option value="all">All statuses</option><option value="pending">Pending review</option><option value="approved">Approved</option><option value="rejected">Rejected</option><option value="delivered">Delivered</option></select><button class="btn primary" id="refresh">↻ Refresh</button><button class="btn" id="export">Export CSV</button></div>
-<div id="notice" class="notice" role="status"></div><section id="orders" class="grid" aria-live="polite"><div class="empty">Loading candy grams…</div></section><p class="foot">JOSS private organizer dashboard · Keep recipient details and messages confidential.</p></main>
+
+<main class="wrap" style="display:none">
+  <header class="top">
+    <div class="brand">
+      <div class="logo">🍭</div>
+      <div>
+        <div class="eyebrow">JOSS · Organizer space</div>
+        <h1>Candy Gram Admin</h1>
+      </div>
+    </div>
+    <div class="pill" id="connection">Connecting to secure orders…</div>
+  </header>
+
+  <section class="hero">
+    <div class="eyebrow">Halloween 2026</div>
+    <h2>A little sweetness, handled with care.</h2>
+    <p>Review incoming candy grams, approve kind messages, and keep track of what is ready for delivery. Only organizers should access this dashboard.</p>
+  </section>
+
+  <section class="stats">
+    <div class="stat"><span>Total orders</span><strong id="total">—</strong></div>
+    <div class="stat"><span>Awaiting review</span><strong id="pendingCount">—</strong></div>
+    <div class="stat"><span>Approved</span><strong id="approvedCount">—</strong></div>
+  </section>
+
+  <div class="toolbar">
+    <input id="search" class="search" placeholder="Search recipient, block, or message…" aria-label="Search orders">
+    <select id="filter" aria-label="Filter by status">
+      <option value="all">All statuses</option>
+      <option value="pending">Pending review</option>
+      <option value="approved">Approved</option>
+      <option value="rejected">Rejected</option>
+      <option value="delivered">Delivered</option>
+    </select>
+    <button class="btn primary" id="refresh" type="button">↻ Refresh</button>
+    <button class="btn" id="export" type="button">Export CSV</button>
+  </div>
+
+  <div id="notice" class="notice" role="status"></div>
+  <section id="orders" class="grid" aria-live="polite">
+    <div class="empty">Loading candy grams…</div>
+  </section>
+  <p class="foot">JOSS private organizer dashboard · Keep recipient details and messages confidential.</p>
+</main>
+
 <script>
-const $=s=>document.querySelector(s);
+const $ = selector => document.querySelector(selector);
+let orders = [];
+
+const safe = value => String(value ?? '').replace(/[&<>"']/g, char => ({
+  '&': '&amp;',
+  '<': '&lt;',
+  '>': '&gt;',
+  '"': '&quot;',
+  "'": '&#39;'
+}[char]));
+
+const norm = order => ({
+  ...order,
+  id: order.id ?? order.order_id,
+  recipient_name: order.recipient_name ?? order.name ?? order.recipient ?? 'Unnamed recipient',
+  block: order.block ?? order.fourth_block ?? '',
+  message: order.message ?? '',
+  status: String(order.status ?? 'pending').toLowerCase(),
+  created_at: order.created_at ?? order.createdAt ?? '',
+  is_anonymous: order.is_anonymous ?? order.anonymous ?? false
+});
 
 function formatVancouverDate(value) {
   if (!value) return '';
 
-  // Database timestamps from SQLite datetime('now') are UTC.
+  // SQLite datetime('now') returns a UTC timestamp without a timezone suffix.
   const normalized = /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/.test(value)
     ? value.replace(' ', 'T') + 'Z'
     : value;
@@ -47,12 +160,253 @@ function formatVancouverDate(value) {
     minute: '2-digit',
     hour12: true
   }).format(date);
-}let orders=[];const safe=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));const norm=o=>({...o,id:o.id??o.order_id,recipient_name:o.recipient_name??o.name??o.recipient??'Unnamed recipient',block:o.block??o.fourth_block??'',message:o.message??'',status:String(o.status??'pending').toLowerCase(),created_at:o.created_at??o.createdAt??'',is_anonymous:o.is_anonymous??o.anonymous??false});
-function notice(msg){$('#notice').textContent=msg;$('#notice').classList.add('show');setTimeout(()=>$('#notice').classList.remove('show'),5000)}
-async function api(url,opts={}){const r=await fetch(url,{...opts,headers:{'Content-Type':'application/json',...(opts.headers||{})},credentials:'same-origin'});if(!r.ok){let m='Request failed ('+r.status+')';try{m=(await r.json()).error||m}catch{}throw Error(m)}return r.status===204?null:r.json()}
-async function load(){document.body.classList.add('loading');$('#connection').textContent='Checking access…';try{const data=await api('/api/admin/orders');orders=(Array.isArray(data)?data:(data.orders||[])).map(norm);$('#connection').textContent='● Secure connection';$('#connection').style.color='#23633a';render()}catch(e){$('#connection').textContent='Connection needs setup';renderError(e.message)}finally{document.body.classList.remove('loading')}}
-function renderError(msg){$('#total').textContent='—';$('#pendingCount').textContent='—';$('#approvedCount').textContent='—';$('#orders').innerHTML=`<div class="empty"><div style="font-size:34px">🔐</div><h3>Could not load orders</h3><p>${safe(msg)}</p><p>Check that Cloudflare Access protects this page and <code>/api/admin/*</code>, and that the Pages Functions and D1 binding are deployed.</p><button class="btn primary" onclick="load()">Try again</button></div>`}
-function render(){let q=$('#search').value.toLowerCase().trim(),f=$('#filter').value;$('#total').textContent=orders.length;$('#pendingCount').textContent=orders.filter(o=>o.status==='pending').length;$('#approvedCount').textContent=orders.filter(o=>o.status==='approved').length;let filtered=orders.filter(o=>(f==='all'||o.status===f)&&[o.recipient_name,o.block,o.message,o.id].some(v=>String(v??'').toLowerCase().includes(q)));if(!filtered.length){$('#orders').innerHTML='<div class="empty"><div style="font-size:34px">🍬</div><h3>No candy grams found</h3><p>Try another search or status filter.</p></div>';return}$('#orders').innerHTML=filtered.map((o,i)=>{let st=['pending','approved','rejected','delivered'].includes(o.status)?o.status:'pending';let date=formatVancouverDate(o.created_at);return `<article class="order" style="animation-delay:${Math.min(i*35,280)}ms"><div class="orderhead"><div><p class="recipient">${safe(o.recipient_name)}</p><div class="meta">Order #${safe(o.id)}${date?' · '+safe(date):''}</div></div><span class="status ${st}">${st}</span></div><div class="details"><span>🏫 Block: <b>${safe(o.block||'Not provided')}</b></span><span>🕵️ ${o.is_anonymous?'Anonymous sender':'Sender details not shown'}</span></div><div class="message">“${safe(o.message)}”</div><div class="actions">${st!=='approved'?`<button class="btn good" data-action="approve" data-id="${safe(o.id)}">✓ Approve</button>`:''}${st!=='rejected'?`<button class="btn bad" data-action="reject" data-id="${safe(o.id)}">✕ Reject</button>`:''}${st==='approved'?`<button class="btn" data-action="delivered" data-id="${safe(o.id)}">🍬 Mark delivered</button>`:''}${st!=='pending'?`<button class="btn" data-action="pending" data-id="${safe(o.id)}">↺ Reset to pending</button>`:''}<button class="btn bad" data-action="delete" data-id="${safe(o.id)}">Delete</button></div></article>`}).join('')}
+}
+
+function notice(message) {
+  $('#notice').textContent = message;
+  $('#notice').classList.add('show');
+}
+
+async function api(url, options = {}) {
+  const response = await fetch(url, {
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...(options.headers || {})
+    },
+    credentials: 'same-origin'
+  });
+
+  if (!response.ok) {
+    let message = `Request failed (${response.status})`;
+    try {
+      message = (await response.json()).error || message;
+    } catch {}
+    throw new Error(message);
+  }
+
+  if (response.status === 204) return null;
+  return response.json();
+}
+
+async function load() {
+  document.body.classList.add('loading');
+  $('#connection').textContent = 'Checking access…';
+
+  try {
+    const data = await api('/api/admin/orders');
+    orders = (Array.isArray(data) ? data : (data.orders || [])).map(norm);
+    $('#connection').textContent = '● Secure connection';
+    $('#connection').style.color = '#23633a';
+    render();
+  } catch (error) {
+    $('#connection').textContent = 'Connection needs setup';
+    renderError(error.message);
+  } finally {
+    document.body.classList.remove('loading');
+  }
+}
+
+function renderError(message) {
+  $('#total').textContent = '—';
+  $('#pendingCount').textContent = '—';
+  $('#approvedCount').textContent = '—';
+
+  $('#orders').innerHTML = `
+    <div class="empty">
+      <div style="font-size:34px">🔐</div>
+      <h3>Could not load orders</h3>
+      <p>${safe(message)}</p>
+      <p>Check that the Pages Functions and D1 binding are deployed and that admin authentication is configured.</p>
+      <button class="btn primary" type="button" id="tryAgain">Try again</button>
+    </div>`;
+
+  $('#tryAgain').addEventListener('click', load);
+}
+
+function render() {
+  const query = $('#search').value.toLowerCase().trim();
+  const filter = $('#filter').value;
+
+  $('#total').textContent = orders.length;
+  $('#pendingCount').textContent = orders.filter(order => order.status === 'pending').length;
+  $('#approvedCount').textContent = orders.filter(order => order.status === 'approved').length;
+
+  const filtered = orders.filter(order =>
+    (filter === 'all' || order.status === filter) &&
+    [order.recipient_name, order.block, order.message, order.id]
+      .some(value => String(value ?? '').toLowerCase().includes(query))
+  );
+
+  if (!filtered.length) {
+    $('#orders').innerHTML = `
+      <div class="empty">
+        <div style="font-size:34px">🍬</div>
+        <h3>No candy grams found</h3>
+        <p>Try another search or status filter.</p>
+      </div>`;
+    return;
+  }
+
+  $('#orders').innerHTML = filtered.map((order, index) => {
+    const status = ['pending', 'approved', 'rejected', 'delivered'].includes(order.status)
+      ? order.status
+      : 'pending';
+    const date = formatVancouverDate(order.created_at);
+
+    return `
+      <article class="order" style="animation-delay:${Math.min(index * 35, 280)}ms">
+        <div class="orderhead">
+          <div>
+            <p class="recipient">${safe(order.recipient_name)}</p>
+            <div class="meta">Order #${safe(order.id)}${date ? ' · ' + safe(date) : ''}</div>
+          </div>
+          <span class="status ${status}">${status}</span>
+        </div>
+
+        <div class="details">
+          <span>🏫 Block: <b>${safe(order.block || 'Not provided')}</b></span>
+          <span>🕵️ ${order.is_anonymous ? 'Anonymous sender' : 'Sender details not shown'}</span>
+        </div>
+
+        <div class="message">“${safe(order.message)}”</div>
+
+        <div class="actions">
+          ${status !== 'approved' ? `<button type="button" class="btn good" data-action="approve" data-id="${safe(order.id)}">✓ Approve</button>` : ''}
+          ${status !== 'rejected' ? `<button type="button" class="btn bad" data-action="reject" data-id="${safe(order.id)}">✕ Reject</button>` : ''}
+          ${status === 'approved' ? `<button type="button" class="btn" data-action="delivered" data-id="${safe(order.id)}">🍬 Mark delivered</button>` : ''}
+          ${status !== 'pending' ? `<button type="button" class="btn" data-action="pending" data-id="${safe(order.id)}">↺ Reset to pending</button>` : ''}
+          <button type="button" class="btn bad" data-action="delete" data-id="${safe(order.id)}">Delete</button>
+        </div>
+      </article>`;
+  }).join('');
+}
+
+$('#orders').addEventListener('click', async event => {
+  const button = event.target.closest('button[data-action]');
+  if (!button) return;
+
+  const id = button.dataset.id;
+  const action = button.dataset.action;
+
+  if (action === 'delete') {
+    if (!confirm(`Permanently delete candy gram #${id}? This cannot be undone.`)) {
+      return;
+    }
+
+    button.disabled = true;
+
+    try {
+      await api(`/api/admin/orders/${encodeURIComponent(id)}`, {
+        method: 'DELETE'
+      });
+
+      orders = orders.filter(order => String(order.id) !== String(id));
+      render();
+      notice(`Candy gram #${id} was permanently deleted.`);
+    } catch (error) {
+      notice('Could not delete candy gram: ' + error.message);
+      button.disabled = false;
+    }
+
+    return;
+  }
+
+  const labels = {
+    approve: 'Approve',
+    reject: 'Reject',
+    delivered: 'Mark as delivered',
+    pending: 'Reset to pending'
+  };
+
+  if (!labels[action]) return;
+
+  if (!confirm(`${labels[action]} this candy gram?`)) return;
+
+  button.disabled = true;
+
+  try {
+    await api(`/api/admin/orders/${encodeURIComponent(id)}`, {
+      method: 'PATCH',
+      body: JSON.stringify({ status: action })
+    });
+
+    const order = orders.find(item => String(item.id) === String(id));
+    if (order) {
+      order.status = action === 'pending' ? 'pending' : action;
+    }
+
+    render();
+    notice('Order updated.');
+  } catch (error) {
+    notice('Could not update order: ' + error.message);
+  } finally {
+    button.disabled = false;
+  }
+});
+
+$('#search').addEventListener('input', render);
+$('#filter').addEventListener('change', render);
+$('#refresh').addEventListener('click', load);
+
+$('#export').addEventListener('click', () => {
+  const rows = [
+    ['id', 'recipient_name', 'block', 'message', 'status', 'created_at'],
+    ...orders.map(order => [
+      order.id,
+      order.recipient_name,
+      order.block,
+      order.message,
+      order.status,
+      order.created_at
+    ])
+  ];
+
+  const csv = rows.map(row =>
+    row.map(value => '"' + String(value ?? '').replace(/"/g, '""') + '"').join(',')
+  ).join('\r\n');
+
+  const url = URL.createObjectURL(new Blob([csv], {
+    type: 'text/csv;charset=utf-8;'
+  }));
+
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = 'joss-candy-orders.csv';
+  link.click();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+});
+
+$('#loginForm').addEventListener('submit', async event => {
+  event.preventDefault();
+  $('#loginError').textContent = '';
+
+  const button = $('#loginForm button[type="submit"]');
+  button.disabled = true;
+
+  try {
+    await api('/api/admin/login', {
+      method: 'POST',
+      body: JSON.stringify({
+        username: $('#adminUsername').value,
+        password: $('#adminPassword').value
+      })
+    });
+
+    $('#loginPanel').style.display = 'none';
+    document.querySelector('main.wrap').style.display = 'block';
+    $('#adminPassword').value = '';
+    await load();
+  } catch (error) {
+    $('#loginError').textContent = error.message || 'Login failed. Please try again.';
+  } finally {
+    button.disabled = false;
+  }
+});
+</script>
+</body>
+</html>
+><p>Try another search or status filter.</p></div>';return}$('#orders').innerHTML=filtered.map((o,i)=>{let st=['pending','approved','rejected','delivered'].includes(o.status)?o.status:'pending';let date=formatVancouverDate(o.created_at);return `<article class="order" style="animation-delay:${Math.min(i*35,280)}ms"><div class="orderhead"><div><p class="recipient">${safe(o.recipient_name)}</p><div class="meta">Order #${safe(o.id)}${date?' · '+safe(date):''}</div></div><span class="status ${st}">${st}</span></div><div class="details"><span>🏫 Block: <b>${safe(o.block||'Not provided')}</b></span><span>🕵️ ${o.is_anonymous?'Anonymous sender':'Sender details not shown'}</span></div><div class="message">“${safe(o.message)}”</div><div class="actions">${st!=='approved'?`<button class="btn good" data-action="approve" data-id="${safe(o.id)}">✓ Approve</button>`:''}${st!=='rejected'?`<button class="btn bad" data-action="reject" data-id="${safe(o.id)}">✕ Reject</button>`:''}${st==='approved'?`<button class="btn" data-action="delivered" data-id="${safe(o.id)}">🍬 Mark delivered</button>`:''}${st!=='pending'?`<button class="btn" data-action="pending" data-id="${safe(o.id)}">↺ Reset to pending</button>`:''}<button class="btn bad" data-action="delete" data-id="${safe(o.id)}">Delete</button></div></article>`}).join('')}
 
 $('#orders').addEventListener('click', async e => {
   const b = e.target.closest('button[data-action]');
