@@ -25,7 +25,29 @@
 <div class="toolbar"><input id="search" class="search" placeholder="Search recipient, block, or message…" aria-label="Search orders"><select id="filter" aria-label="Filter by status"><option value="all">All statuses</option><option value="pending">Pending review</option><option value="approved">Approved</option><option value="rejected">Rejected</option><option value="delivered">Delivered</option></select><button class="btn primary" id="refresh">↻ Refresh</button><button class="btn" id="export">Export CSV</button></div>
 <div id="notice" class="notice" role="status"></div><section id="orders" class="grid" aria-live="polite"><div class="empty">Loading candy grams…</div></section><p class="foot">JOSS private organizer dashboard · Keep recipient details and messages confidential.</p></main>
 <script>
-const $=s=>document.querySelector(s);let orders=[];const safe=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));const norm=o=>({...o,id:o.id??o.order_id,recipient_name:o.recipient_name??o.name??o.recipient??'Unnamed recipient',block:o.block??o.fourth_block??'',message:o.message??'',status:String(o.status??'pending').toLowerCase(),created_at:o.created_at??o.createdAt??'',is_anonymous:o.is_anonymous??o.anonymous??false});
+const $=s=>document.querySelector(s);
+
+function formatVancouverDate(value) {
+  if (!value) return '';
+
+  // Database timestamps from SQLite datetime('now') are UTC.
+  const normalized = /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/.test(value)
+    ? value.replace(' ', 'T') + 'Z'
+    : value;
+
+  const date = new Date(normalized);
+  if (Number.isNaN(date.getTime())) return value;
+
+  return new Intl.DateTimeFormat('en-CA', {
+    timeZone: 'America/Vancouver',
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: '2-digit',
+    hour12: true
+  }).format(date);
+}let orders=[];const safe=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));const norm=o=>({...o,id:o.id??o.order_id,recipient_name:o.recipient_name??o.name??o.recipient??'Unnamed recipient',block:o.block??o.fourth_block??'',message:o.message??'',status:String(o.status??'pending').toLowerCase(),created_at:o.created_at??o.createdAt??'',is_anonymous:o.is_anonymous??o.anonymous??false});
 function notice(msg){$('#notice').textContent=msg;$('#notice').classList.add('show');setTimeout(()=>$('#notice').classList.remove('show'),5000)}
 async function api(url,opts={}){const r=await fetch(url,{...opts,headers:{'Content-Type':'application/json',...(opts.headers||{})},credentials:'same-origin'});if(!r.ok){let m='Request failed ('+r.status+')';try{m=(await r.json()).error||m}catch{}throw Error(m)}return r.status===204?null:r.json()}
 async function load(){document.body.classList.add('loading');$('#connection').textContent='Checking access…';try{const data=await api('/api/admin/orders');orders=(Array.isArray(data)?data:(data.orders||[])).map(norm);$('#connection').textContent='● Secure connection';$('#connection').style.color='#23633a';render()}catch(e){$('#connection').textContent='Connection needs setup';renderError(e.message)}finally{document.body.classList.remove('loading')}}
