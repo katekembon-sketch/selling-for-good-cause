@@ -27,6 +27,7 @@ export async function onRequestPatch({ env, request, params }) {
   };
 
   const next = map[body?.status];
+
   if (!ALLOWED.has(next)) {
     return json({ error: "Invalid order status." }, 400);
   }
@@ -56,6 +57,7 @@ export async function onRequestDelete({ env, request, params }) {
   }
 
   const id = String(params.id || "");
+
   if (!/^\d+$/.test(id)) {
     return json({ error: "Invalid order ID." }, 400);
   }
@@ -69,7 +71,7 @@ export async function onRequestDelete({ env, request, params }) {
       return json({ error: "Order not found." }, 404);
     }
 
-    return json({ ok: true, id });
+    return json({ ok: true, id: Number(id) });
   } catch {
     return json({ error: "Could not delete the order." }, 500);
   }
@@ -79,16 +81,24 @@ async function isAdmin(request, env) {
   if (!env.ADMIN_USERNAME || !env.ADMIN_PASSWORD) return false;
 
   const cookie = request.headers.get("Cookie") || "";
-  const match = cookie.match(/(?:^|;\s*)admin_session=(\d+)\.([A-Za-z0-9_-]+)/);
+  const match = cookie.match(
+    /(?:^|;\s*)admin_session=(\d+)\.([A-Za-z0-9_-]+)/
+  );
+
   if (!match) return false;
 
   const expires = Number(match[1]);
-  if (!Number.isSafeInteger(expires) || expires <= Math.floor(Date.now() / 1000)) {
+
+  if (
+    !Number.isSafeInteger(expires) ||
+    expires <= Math.floor(Date.now() / 1000)
+  ) {
     return false;
   }
 
   try {
     const payload = `${env.ADMIN_USERNAME}:${expires}`;
+
     const key = await crypto.subtle.importKey(
       "raw",
       new TextEncoder().encode(env.ADMIN_PASSWORD),
@@ -99,7 +109,11 @@ async function isAdmin(request, env) {
 
     let encoded = match[2].replace(/-/g, "+").replace(/_/g, "/");
     encoded += "=".repeat((4 - encoded.length % 4) % 4);
-    const signature = Uint8Array.from(atob(encoded), c => c.charCodeAt(0));
+
+    const signature = Uint8Array.from(
+      atob(encoded),
+      character => character.charCodeAt(0)
+    );
 
     return await crypto.subtle.verify(
       "HMAC",
